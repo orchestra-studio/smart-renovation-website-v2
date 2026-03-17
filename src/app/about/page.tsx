@@ -1,128 +1,126 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { aboutValues, leadershipTeam, companyMilestones, processSteps } from "@/data/site";
+import { trustStats, aboutValues, leadershipTeam, companyMilestones, siteConfig } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "About — Our Story",
-  description: "Smart Renovation is Dubai's premier design-build studio. European design sensibility meets meticulous craftsmanship in every project.",
+  title: "About — Our Studio",
+  description: "Learn about Smart Renovation — over 14 years of design-build excellence in Dubai.",
 };
 
 export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-sr-dark pt-40 pb-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid items-center gap-16 lg:grid-cols-2">
-            <div>
-              <p className="text-overline text-sr-gold mb-4">Our Story</p>
-              <h1 className="text-display text-sr-cream">
-                The Fashion House
-                <br />
-                <span className="text-gradient-gold">of Renovation</span>
-              </h1>
-              <p className="mt-8 text-lg leading-relaxed text-sr-text-secondary">
-                Founded in 2012, Smart Renovation brings European design sensibility and meticulous
-                craftsmanship to Dubai&apos;s most discerning homeowners and businesses.
-              </p>
-              <p className="mt-4 text-base leading-relaxed text-sr-text-muted">
-                Our integrated design-build approach means one team owns your project from concept
-                to completion. No fragmented contractors. No communication gaps. Just exceptional spaces
-                delivered with certainty.
+      <section className="bg-fg-grey text-fg-white pt-28 lg:pt-36 pb-16 lg:pb-24">
+        <div className="px-6 lg:px-10">
+          <p className="section-title text-label-lg text-fg-text-secondary mb-6">About Us</p>
+          <h1 className="text-hero max-w-[56rem]">
+            One studio. Design, build, and deliver — with total accountability
+          </h1>
+          <div className="divider mt-12 lg:mt-16" />
+
+          <div className="lg:grid lg:grid-cols-24 lg:gap-5 mt-6">
+            <div className="lg:col-start-16 lg:col-span-9">
+              <p className="text-body text-fg-text-secondary">
+                {siteConfig.description}
               </p>
             </div>
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
-              <Image
-                src="/images/projects/penthouse-18.jpg"
-                alt="Smart Renovation team"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Duo images */}
+      <section className="bg-fg-grey text-fg-white pb-16 lg:pb-24">
+        <div className="px-6 lg:px-10 grid grid-cols-2 lg:grid-cols-24 gap-4 lg:gap-5">
+          <div className="lg:col-start-1 lg:col-span-14 aspect-[16/10] relative overflow-hidden">
+            <Image
+              src="/images/projects/penthouse-20.jpg"
+              alt="Smart Renovation studio"
+              fill
+              className="object-cover"
+              sizes="60vw"
+            />
+          </div>
+          <div className="lg:col-start-15 lg:col-span-10 aspect-[3/4] relative overflow-hidden">
+            <Image
+              src="/images/projects/penthouse-6.jpg"
+              alt="Craftsmanship detail"
+              fill
+              className="object-cover"
+              sizes="40vw"
+            />
           </div>
         </div>
       </section>
 
       {/* Values */}
-      <section className="bg-sr-dark-surface py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-overline text-sr-gold mb-4">What Drives Us</p>
-            <h2 className="text-section-title text-sr-cream">Our Values</h2>
+      <section className="bg-fg-cream text-fg-text-dark py-20 lg:py-40">
+        <div className="px-6 lg:px-10">
+          <div className="border-t border-fg-border-light pt-4 lg:pt-5 mb-12 lg:mb-20">
+            <p className="section-title text-label-lg text-fg-text-dark-secondary">Our Values</p>
           </div>
-          <div className="mt-16 grid gap-8 sm:grid-cols-2">
-            {aboutValues.map((value) => (
-              <div key={value.title} className="rounded-2xl border border-sr-dark-border bg-sr-dark p-8 transition-all duration-500 hover:border-sr-gold/30">
-                <h3 className="font-heading text-xl font-light text-sr-cream">{value.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-sr-text-muted">{value.description}</p>
+
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-10">
+            {aboutValues.map((value, i) => (
+              <div key={i}>
+                <p className="text-label text-fg-text-dark-secondary mb-3">{String(i + 1).padStart(2, "0")}</p>
+                <h3 className="text-subheading text-fg-text-dark mb-3">{value.title}</h3>
+                <p className="text-body text-fg-text-dark-secondary">{value.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Team */}
-      <section className="bg-sr-dark py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-overline text-sr-gold mb-4">Leadership</p>
-            <h2 className="text-section-title text-sr-cream">Our Team</h2>
-          </div>
-          <div className="mt-16 grid gap-8 sm:grid-cols-3">
-            {leadershipTeam.map((member) => (
-              <div key={member.name} className="rounded-2xl border border-sr-dark-border bg-sr-dark-surface p-8 text-center">
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-sr-dark-border text-2xl font-heading text-sr-cream">
-                  {member.name.split(" ").map((n) => n[0]).join("")}
-                </div>
-                <h3 className="mt-6 font-heading text-xl font-light text-sr-cream">{member.name}</h3>
-                <p className="mt-1 text-xs text-sr-gold">{member.title}</p>
-                <p className="mt-3 text-sm text-sr-text-muted">{member.bio}</p>
+      {/* Stats */}
+      <section className="bg-fg-grey text-fg-white py-20 lg:py-32">
+        <div className="px-6 lg:px-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+            {trustStats.map((stat) => (
+              <div key={stat.label}>
+                <p className="text-hero text-fg-white mb-2">
+                  {stat.decimals ? stat.value.toFixed(stat.decimals) : stat.value}
+                  <span className="text-fg-text-muted">{stat.suffix}</span>
+                </p>
+                <p className="text-label text-fg-text-secondary">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Milestones */}
-      <section className="bg-sr-dark-surface py-32">
-        <div className="mx-auto max-w-5xl px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-overline text-sr-gold mb-4">Our Journey</p>
-            <h2 className="text-section-title text-sr-cream">Milestones</h2>
+      {/* Leadership */}
+      <section className="bg-fg-cream text-fg-text-dark py-20 lg:py-40">
+        <div className="px-6 lg:px-10">
+          <div className="border-t border-fg-border-light pt-4 lg:pt-5 mb-12 lg:mb-20">
+            <p className="section-title text-label-lg text-fg-text-dark-secondary">Leadership</p>
           </div>
-          <div className="mt-16 space-y-0">
-            {companyMilestones.map((m, i) => (
-              <div key={m.year} className="flex gap-6 pb-8">
-                <div className="flex flex-col items-center">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-sr-gold/30 bg-sr-dark text-sm font-heading text-sr-gold">
-                    {m.year}
-                  </div>
-                  {i < companyMilestones.length - 1 && (
-                    <div className="w-px flex-1 bg-sr-dark-border mt-2" />
-                  )}
-                </div>
-                <p className="pt-3 text-sm text-sr-text-secondary">{m.event}</p>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
+            {leadershipTeam.map((person) => (
+              <div key={person.name} className="border-t border-fg-border-light pt-6">
+                <h3 className="text-subheading text-fg-text-dark">{person.name}</h3>
+                <p className="text-label text-fg-text-dark-secondary mt-1 mb-4">{person.title}</p>
+                <p className="text-body text-fg-text-dark-secondary">{person.bio}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Process */}
-      <section className="bg-sr-dark py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-overline text-sr-gold mb-4">How We Work</p>
-            <h2 className="text-section-title text-sr-cream">Our Process</h2>
+      {/* Timeline */}
+      <section className="bg-fg-grey text-fg-white py-20 lg:py-40">
+        <div className="px-6 lg:px-10">
+          <div className="border-t border-fg-border pt-4 lg:pt-5 mb-12 lg:mb-20">
+            <p className="section-title text-label-lg text-fg-text-secondary">Milestones</p>
           </div>
-          <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {processSteps.map((step) => (
-              <div key={step.step} className="rounded-2xl border border-sr-dark-border bg-sr-dark-surface p-8">
-                <span className="font-heading text-5xl font-light text-sr-gold/20">{step.step}</span>
-                <h3 className="mt-4 font-heading text-xl font-light text-sr-cream">{step.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-sr-text-muted">{step.description}</p>
+
+          <div className="space-y-6">
+            {companyMilestones.map((milestone) => (
+              <div key={milestone.year} className="flex items-baseline gap-8 border-b border-fg-border pb-6">
+                <span className="text-label text-fg-text-muted w-16 flex-shrink-0">{milestone.year}</span>
+                <span className="text-body text-fg-text-secondary">{milestone.event}</span>
               </div>
             ))}
           </div>
@@ -130,19 +128,20 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-sr-dark-surface py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center lg:px-8">
-          <h2 className="font-heading text-3xl font-light text-sr-cream">
-            Let&apos;s Build Something Extraordinary
+      <section className="bg-fg-cream text-fg-text-dark py-20 lg:py-32">
+        <div className="px-6 lg:px-10">
+          <h2 className="text-heading text-fg-text-dark max-w-[44rem] mb-8">
+            Ready to start your project?
           </h2>
-          <p className="mt-4 text-sr-text-secondary">
-            Schedule a free consultation and experience the Smart Renovation difference.
-          </p>
           <Link
             href="/contact"
-            className="mt-8 inline-block rounded-full bg-sr-gold px-10 py-4 text-sm font-semibold uppercase tracking-widest text-sr-dark transition-all hover:bg-sr-gold-hover"
+            className="text-label bg-fg-grey text-fg-white px-6 py-3 inline-flex items-center gap-3 transition-opacity hover:opacity-80"
           >
-            Start Your Project
+            <svg width="14" height="11" viewBox="0 0 14 11" fill="none" className="-translate-y-px">
+              <path d="M8.5 0.5L13 5.5L8.5 10.5" stroke="currentColor" strokeWidth="1.2" />
+              <path d="M0 5.5H13" stroke="currentColor" strokeWidth="1.2" />
+            </svg>
+            Request a Consultation
           </Link>
         </div>
       </section>

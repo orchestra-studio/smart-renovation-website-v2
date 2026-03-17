@@ -2,137 +2,130 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Check } from "lucide-react";
 import { services, getServiceBySlug } from "@/data/services";
 import { projects } from "@/data/projects";
+
+type Params = Promise<{ slug: string }>;
 
 export async function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
   if (!service) return {};
-  return {
-    title: service.seoTitle,
-    description: service.seoDescription,
-    openGraph: { images: [{ url: service.heroImage }] },
-  };
+  return { title: service.seoTitle, description: service.seoDescription };
 }
 
-export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ServiceDetailPage({ params }: { params: Params }) {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
   if (!service) notFound();
 
-  const relatedProjects = projects.filter((p) =>
-    p.relatedServiceSlugs.includes(service.slug)
-  );
+  const relatedProjects = projects.filter((p) => service.relatedProjectSlugs.includes(p.slug));
 
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-[60vh] flex items-end">
-        <Image src={service.heroImage} alt={service.name} fill className="object-cover" priority sizes="100vw" />
-        <div className="absolute inset-0 bg-gradient-to-t from-sr-dark via-sr-dark/50 to-sr-dark/20" />
-        <div className="relative z-10 mx-auto max-w-7xl w-full px-6 pb-16 pt-40 lg:px-8">
-          <Link href="/services" className="flex items-center gap-2 text-xs text-sr-text-muted hover:text-sr-cream mb-8">
-            <ArrowLeft className="h-4 w-4" /> All Services
-          </Link>
-          <span className="text-4xl mb-4 block">{service.icon}</span>
-          <h1 className="text-display text-sr-cream max-w-3xl">{service.heroTitle}</h1>
-          <p className="mt-6 max-w-xl text-lg text-sr-text-secondary">{service.intro}</p>
+      <section className="relative min-h-[70svh] bg-fg-grey text-fg-white overflow-hidden">
+        <Image
+          src={service.heroImage}
+          alt={service.name}
+          fill
+          priority
+          className="object-cover opacity-60"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.6)]" />
+
+        <div className="relative z-10 px-6 lg:px-10 min-h-[70svh] flex flex-col justify-end pb-16 lg:pb-24">
+          <p className="text-label text-fg-text-secondary mb-4">Service</p>
+          <h1 className="text-hero max-w-[50rem]">{service.heroTitle}</h1>
         </div>
       </section>
 
       {/* Content */}
-      <section className="bg-sr-dark py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid gap-16 lg:grid-cols-2">
-            <div>
-              <p className="text-overline text-sr-gold mb-4">About This Service</p>
-              <p className="text-lg leading-relaxed text-sr-text-secondary">{service.description}</p>
-              <h3 className="mt-10 text-sm font-medium uppercase tracking-wider text-sr-cream mb-4">Key Outcomes</h3>
-              <ul className="space-y-3">
-                {service.keyOutcomes.map((outcome) => (
-                  <li key={outcome} className="flex items-start gap-3 text-sm text-sr-text-secondary">
-                    <Check className="h-4 w-4 shrink-0 text-sr-gold mt-0.5" />
-                    {outcome}
-                  </li>
-                ))}
-              </ul>
+      <section className="bg-fg-cream text-fg-text-dark py-16 lg:py-24">
+        <div className="px-6 lg:px-10">
+          {/* Intro */}
+          <div className="border-t border-fg-border-light pt-6 lg:grid lg:grid-cols-24 lg:gap-5 mb-16 lg:mb-24">
+            <div className="lg:col-span-10">
+              <p className="text-body text-fg-text-dark leading-relaxed text-lg lg:text-xl">
+                {service.intro}
+              </p>
             </div>
-            <div>
-              <p className="text-overline text-sr-gold mb-4">Our Process</p>
-              <div className="space-y-6">
-                {service.process.map((step, i) => (
-                  <div key={step.title} className="flex gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-sr-dark-border text-sm font-medium text-sr-gold">
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-                    <div>
-                      <h4 className="font-heading text-lg text-sr-cream">{step.title}</h4>
-                      <p className="mt-1 text-sm text-sr-text-muted">{step.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div className="lg:col-start-14 lg:col-span-11 mt-6 lg:mt-0">
+              <p className="text-body text-fg-text-dark-secondary">{service.description}</p>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Related Projects */}
-      {relatedProjects.length > 0 && (
-        <section className="bg-sr-dark-surface py-24">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <p className="text-overline text-sr-gold mb-4">Related Projects</p>
-            <h2 className="font-heading text-2xl font-light text-sr-cream mb-10">
-              See This Service in Action
-            </h2>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {relatedProjects.slice(0, 3).map((project) => (
-                <Link
-                  key={project.slug}
-                  href={`/projects/${project.slug}`}
-                  className="group block overflow-hidden rounded-xl border border-sr-dark-border transition-all hover:border-sr-gold/30"
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={project.gallery[0]}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-heading text-lg text-sr-cream">{project.shortLabel}</h3>
-                    <p className="mt-1 text-xs text-sr-text-muted">{project.location} · {project.timeline}</p>
-                  </div>
-                </Link>
+          {/* Key outcomes */}
+          <div className="mb-16 lg:mb-24">
+            <p className="text-label text-fg-text-dark-secondary mb-6">Key Outcomes</p>
+            <div className="flex flex-wrap gap-3">
+              {service.keyOutcomes.map((outcome) => (
+                <span key={outcome} className="text-label border border-fg-border-light px-5 py-2.5">
+                  {outcome}
+                </span>
               ))}
             </div>
           </div>
-        </section>
-      )}
 
-      {/* CTA */}
-      <section className="bg-sr-dark py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center lg:px-8">
-          <h2 className="font-heading text-3xl font-light text-sr-cream">
-            Ready to start your {service.name.toLowerCase()} project?
-          </h2>
-          <p className="mt-4 text-sr-text-secondary">
-            Book a free consultation to discuss your vision with our expert team.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-8 inline-block rounded-full bg-sr-gold px-10 py-4 text-sm font-semibold uppercase tracking-widest text-sr-dark transition-all hover:bg-sr-gold-hover"
-          >
-            Schedule a Consultation
-          </Link>
+          {/* Process */}
+          <div className="border-t border-fg-border-light pt-6 mb-16 lg:mb-24">
+            <p className="section-title text-label-lg text-fg-text-dark-secondary mb-10">Process</p>
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-10">
+              {service.process.map((step, i) => (
+                <div key={i}>
+                  <p className="text-label text-fg-text-dark-secondary mb-3">{String(i + 1).padStart(2, "0")}</p>
+                  <h3 className="text-subheading text-fg-text-dark mb-2">{step.title}</h3>
+                  <p className="text-body text-fg-text-dark-secondary">{step.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Related projects */}
+          {relatedProjects.length > 0 && (
+            <div className="border-t border-fg-border-light pt-6 mb-16 lg:mb-24">
+              <p className="section-title text-label-lg text-fg-text-dark-secondary mb-10">Related Projects</p>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {relatedProjects.map((p) => (
+                  <Link key={p.slug} href={`/projects/${p.slug}`} className="group">
+                    <div className="aspect-[16/10] relative overflow-hidden mb-4">
+                      <Image
+                        src={p.gallery[0]}
+                        alt={p.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="50vw"
+                      />
+                    </div>
+                    <h3 className="text-subheading text-fg-text-dark group-hover:opacity-70 transition-opacity">
+                      {p.title}
+                    </h3>
+                    <p className="text-label text-fg-text-dark-secondary mt-1">{p.location}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* CTA */}
+          <div className="border-t border-fg-border-light pt-10">
+            <h2 className="text-heading text-fg-text-dark mb-6">Discuss your {service.name.toLowerCase()} project</h2>
+            <Link
+              href="/contact"
+              className="text-label bg-fg-grey text-fg-white px-6 py-3 inline-flex items-center gap-3 transition-opacity hover:opacity-80"
+            >
+              <svg width="14" height="11" viewBox="0 0 14 11" fill="none" className="-translate-y-px">
+                <path d="M8.5 0.5L13 5.5L8.5 10.5" stroke="currentColor" strokeWidth="1.2" />
+                <path d="M0 5.5H13" stroke="currentColor" strokeWidth="1.2" />
+              </svg>
+              Request a Consultation
+            </Link>
+          </div>
         </div>
       </section>
     </>

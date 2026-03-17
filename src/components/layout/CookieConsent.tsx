@@ -20,20 +20,20 @@ export function CookieConsent() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-x-4 bottom-4 z-[60] mx-auto max-w-2xl rounded-2xl border border-sr-dark-border bg-sr-dark-surface/95 p-5 shadow-2xl backdrop-blur-xl">
-      <p className="text-sm text-sr-text-secondary">
+    <div className="fixed bottom-4 right-4 z-[60] max-w-sm glass-nav p-6 animate-fade-up">
+      <p className="text-sm text-fg-text-secondary leading-relaxed">
         We use cookies to improve your experience and measure site performance.
       </p>
-      <div className="mt-4 flex flex-wrap gap-3">
+      <div className="mt-4 flex gap-3">
         <button
           onClick={() => accept(true, true)}
-          className="rounded-full bg-sr-gold px-5 py-2 text-xs font-semibold uppercase tracking-wider text-sr-dark transition-colors hover:bg-sr-gold-hover"
+          className="text-label bg-fg-white text-fg-grey px-5 py-2.5 transition-opacity hover:opacity-90"
         >
           Accept All
         </button>
         <button
           onClick={() => accept(false, false)}
-          className="rounded-full border border-sr-dark-border px-5 py-2 text-xs font-semibold uppercase tracking-wider text-sr-text-secondary transition-colors hover:border-sr-text-muted"
+          className="text-label border border-fg-border px-5 py-2.5 text-fg-text-secondary transition-colors hover:border-fg-text-muted hover:text-fg-white"
         >
           Essential Only
         </button>

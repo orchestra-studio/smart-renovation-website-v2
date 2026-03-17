@@ -1,58 +1,91 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { processSteps } from "@/data/site";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export function Process() {
-  const { ref, isVisible } = useScrollReveal();
+  const { ref, isVisible } = useScrollReveal(0.1);
 
   return (
-    <section ref={ref} className="relative bg-sr-dark-surface py-32 lg:py-40">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center"
-        >
-          <p className="text-overline text-sr-gold mb-4">How We Work</p>
-          <h2 className="text-section-title text-sr-cream">
-            Your Renovation Journey
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base text-sr-text-secondary">
-            A structured, transparent process that turns ambitious visions into exceptional spaces
-            — with clarity at every stage.
-          </p>
-        </motion.div>
+    <section ref={ref} className="bg-fg-grey text-fg-white py-20 lg:py-40 relative overflow-hidden">
+      {/* Sticky showroom-style section — dark background */}
+      <div className="px-6 lg:px-10">
+        {/* Top border + label */}
+        <div className="border-t border-fg-border pt-4 lg:pt-5">
+          <p className="section-title text-label-lg text-fg-text-secondary">How We Work</p>
+        </div>
 
-        <div className="mt-20 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {processSteps.map((step, i) => (
-            <motion.div
-              key={step.step}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 + i * 0.1 }}
-              className="group relative"
+        {/* Two-column layout */}
+        <div className="lg:flex lg:justify-between lg:items-start mt-8 lg:mt-16">
+          {/* Left column */}
+          <div className="lg:w-[45rem] mb-12 lg:mb-0">
+            <h2
+              className={`text-heading text-fg-white transition-all duration-700 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              }`}
             >
-              {/* Connector line */}
-              {i < processSteps.length - 1 && (
-                <div className="absolute top-8 left-[calc(50%+2rem)] hidden h-px w-[calc(100%-4rem)] bg-sr-dark-border lg:block" />
-              )}
+              One team. One process.
+              <br />
+              Total accountability.
+            </h2>
+          </div>
 
-              <div className="relative rounded-2xl border border-sr-dark-border bg-sr-dark p-8 transition-all duration-500 hover:border-sr-gold/30">
-                <span className="font-heading text-5xl font-light text-sr-gold/20 transition-colors duration-500 group-hover:text-sr-gold/40">
-                  {step.step}
-                </span>
-                <h3 className="mt-4 font-heading text-xl font-light text-sr-cream">
-                  {step.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-sr-text-muted">
-                  {step.description}
-                </p>
-              </div>
-            </motion.div>
+          {/* Right column — address style like fluid.glass showroom */}
+          <div className="lg:text-right">
+            <p className="text-label text-fg-text-secondary mb-2">Timeline</p>
+            <p className="text-body text-fg-text-secondary">
+              Discovery to handover<br />
+              8–12 months typical villa<br />
+              7–14 weeks partial scope
+            </p>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="divider my-16 lg:my-24" />
+
+        {/* Process steps */}
+        <div className="lg:grid lg:grid-cols-4 lg:gap-10">
+          {processSteps.map((step, i) => (
+            <div
+              key={step.step}
+              className={`mb-10 lg:mb-0 transition-all duration-700 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: `${i * 150}ms` }}
+            >
+              {/* Step number */}
+              <p className="text-label text-fg-text-muted mb-3">{step.step}</p>
+
+              {/* Title */}
+              <h3 className="text-subheading text-fg-white mb-3">{step.title}</h3>
+
+              {/* Description */}
+              <p className="text-body text-fg-text-secondary">{step.description}</p>
+            </div>
           ))}
+        </div>
+      </div>
+
+      {/* Background video area like fluid.glass showroom */}
+      <div className="relative mt-20 lg:mt-32 mx-6 lg:mx-10 aspect-video overflow-hidden">
+        <div className="absolute inset-0 bg-fg-surface" />
+        <div
+          className="absolute inset-0 opacity-40"
+          style={{
+            backgroundImage: "url(/images/projects/penthouse-20.jpg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        {/* Overlay content */}
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          <div className="text-center">
+            <p className="text-label text-fg-text-muted mb-4">Design-Build Studio</p>
+            <p className="text-subheading text-fg-white max-w-lg mx-auto">
+              Visit our Dubai studio to explore materials, review your project, and meet the team.
+            </p>
+          </div>
         </div>
       </div>
     </section>

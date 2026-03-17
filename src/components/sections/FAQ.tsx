@@ -1,84 +1,76 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { faqs } from "@/data/site";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export function FAQ() {
-  const { ref, isVisible } = useScrollReveal();
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const { ref, isVisible } = useScrollReveal(0.1);
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
-    <section ref={ref} className="relative bg-sr-dark py-32 lg:py-40">
-      <div className="mx-auto max-w-3xl px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center"
-        >
-          <p className="text-overline text-sr-gold mb-4">Questions</p>
-          <h2 className="text-section-title text-sr-cream">
-            Frequently Asked
-          </h2>
-        </motion.div>
+    <section ref={ref} className="bg-fg-cream text-fg-text-dark py-20 lg:py-40">
+      <div className="px-6 lg:px-10">
+        {/* Header */}
+        <div className="border-t border-fg-border-light pt-4 lg:pt-5">
+          <p className="section-title text-label-lg text-fg-text-dark-secondary">Frequently Asked</p>
+        </div>
 
-        <div className="mt-12 space-y-2">
-          {faqs.map((faq, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 + i * 0.05 }}
-              className="rounded-xl border border-sr-dark-border overflow-hidden"
+        <div className="lg:grid lg:grid-cols-24 lg:gap-5 mt-6 lg:mt-10">
+          {/* Heading */}
+          <div className="lg:col-span-10 mb-10 lg:mb-0">
+            <h2
+              className={`text-heading text-fg-text-dark transition-all duration-700 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              }`}
             >
-              <button
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="flex w-full items-center justify-between px-6 py-5 text-left transition-colors hover:bg-sr-dark-surface"
+              Questions we hear most
+            </h2>
+          </div>
+
+          {/* FAQ list */}
+          <div className="lg:col-start-12 lg:col-span-13">
+            {faqs.map((faq, i) => (
+              <div
+                key={i}
+                className="border-t border-fg-border-light"
               >
-                <span className="text-sm font-medium text-sr-cream pr-4">{faq.question}</span>
-                <ChevronDown
-                  className={`h-5 w-5 shrink-0 text-sr-text-muted transition-transform duration-300 ${
-                    openIndex === i ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              <AnimatePresence>
-                {openIndex === i && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                <button
+                  onClick={() => setOpenIdx(openIdx === i ? null : i)}
+                  className="w-full flex items-start justify-between py-5 lg:py-6 text-left group"
+                  aria-expanded={openIdx === i}
+                >
+                  <span className="text-body font-medium text-fg-text-dark pr-8 group-hover:opacity-70 transition-opacity">
+                    {faq.question}
+                  </span>
+                  <span
+                    className={`flex-shrink-0 w-5 h-5 flex items-center justify-center transition-transform duration-300 ${
+                      openIdx === i ? "rotate-45" : ""
+                    }`}
                   >
-                    <p className="px-6 pb-5 text-sm leading-relaxed text-sr-text-secondary">
-                      {faq.answer}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M6 0v12M0 6h12" stroke="currentColor" strokeWidth="1.2" />
+                    </svg>
+                  </span>
+                </button>
+
+                {/* Answer */}
+                <div
+                  className={`overflow-hidden transition-all duration-500 ${
+                    openIdx === i ? "max-h-80 pb-6" : "max-h-0"
+                  }`}
+                >
+                  <p className="text-body text-fg-text-dark-secondary leading-relaxed">
+                    {faq.answer}
+                  </p>
+                </div>
+              </div>
+            ))}
+            {/* Bottom border */}
+            <div className="border-t border-fg-border-light" />
+          </div>
         </div>
       </div>
-
-      {/* JSON-LD FAQ Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.question,
-              acceptedAnswer: { "@type": "Answer", text: faq.answer },
-            })),
-          }),
-        }}
-      />
     </section>
   );
 }

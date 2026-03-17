@@ -2,97 +2,130 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
 import { articles, getArticleBySlug } from "@/data/articles";
+
+type Params = Promise<{ slug: string }>;
 
 export async function generateStaticParams() {
   return articles.map((a) => ({ slug: a.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   const article = getArticleBySlug(slug);
   if (!article) return {};
-  return {
-    title: article.seoTitle,
-    description: article.metaDescription,
-    openGraph: { images: [{ url: article.coverImage }] },
-  };
+  return { title: article.seoTitle, description: article.metaDescription };
 }
 
-export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ArticlePage({ params }: { params: Params }) {
   const { slug } = await params;
   const article = getArticleBySlug(slug);
   if (!article) notFound();
 
-  const otherArticles = articles.filter((a) => a.slug !== slug).slice(0, 3);
+  const related = articles.filter((a) => a.slug !== slug && a.category === article.category).slice(0, 2);
 
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-[50vh] flex items-end">
-        <Image src={article.coverImage} alt={article.title} fill className="object-cover" priority sizes="100vw" />
-        <div className="absolute inset-0 bg-gradient-to-t from-sr-dark via-sr-dark/60 to-sr-dark/30" />
-        <div className="relative z-10 mx-auto max-w-4xl w-full px-6 pb-16 pt-40 lg:px-8">
-          <Link href="/blog" className="flex items-center gap-2 text-xs text-sr-text-muted hover:text-sr-cream mb-8">
-            <ArrowLeft className="h-4 w-4" /> Back to Blog
-          </Link>
-          <span className="rounded-full border border-sr-gold/30 px-3 py-1 text-xs text-sr-gold">{article.category}</span>
-          <h1 className="mt-4 text-display text-sr-cream">{article.title}</h1>
-          <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-sr-text-muted">
-            <span className="flex items-center gap-1"><User className="h-3 w-3" />{article.author.name}</span>
-            <span className="flex items-center gap-1"><Calendar className="h-3 w-3" />{new Date(article.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
-            <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{article.readTime}</span>
-          </div>
+      <section className="relative min-h-[60svh] bg-fg-grey text-fg-white overflow-hidden">
+        <Image
+          src={article.coverImage}
+          alt={article.title}
+          fill
+          priority
+          className="object-cover opacity-50"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.7)]" />
+
+        <div className="relative z-10 px-6 lg:px-10 min-h-[60svh] flex flex-col justify-end pb-16 lg:pb-24">
+          <p className="text-label text-fg-text-secondary mb-4">
+            {article.category} · {article.readTime}
+          </p>
+          <h1 className="text-hero max-w-[50rem]">{article.title}</h1>
         </div>
       </section>
 
-      {/* Content */}
-      <section className="bg-sr-dark py-20">
-        <div className="mx-auto max-w-3xl px-6 lg:px-8">
-          <p className="text-lg leading-relaxed text-sr-text-secondary">
-            {article.excerpt}
-          </p>
-          <div className="luxury-divider my-12" />
-          <p className="text-base leading-relaxed text-sr-text-muted">
-            This is a preview of the full article. Contact us to learn more about {article.title.toLowerCase()}.
-          </p>
-          <div className="mt-12 rounded-2xl border border-sr-dark-border bg-sr-dark-surface p-8 text-center">
-            <h3 className="font-heading text-xl text-sr-cream">Want expert guidance?</h3>
-            <p className="mt-2 text-sm text-sr-text-muted">
-              Schedule a free consultation to discuss your project with our team.
-            </p>
-            <Link
-              href="/contact"
-              className="mt-6 inline-block rounded-full bg-sr-gold px-8 py-3 text-sm font-semibold uppercase tracking-widest text-sr-dark transition-all hover:bg-sr-gold-hover"
-            >
-              Schedule a Consultation
-            </Link>
+      {/* Article content */}
+      <section className="bg-fg-cream text-fg-text-dark py-16 lg:py-24">
+        <div className="px-6 lg:px-10 lg:grid lg:grid-cols-24 lg:gap-5">
+          {/* Author sidebar */}
+          <div className="lg:col-span-6 mb-8 lg:mb-0">
+            <div className="border-t border-fg-border-light pt-6">
+              <p className="text-label text-fg-text-dark-secondary mb-2">Written by</p>
+              <p className="text-body text-fg-text-dark font-medium">{article.author.name}</p>
+              <p className="text-label text-fg-text-dark-secondary mt-1">{article.author.role}</p>
+
+              <p className="text-label text-fg-text-dark-secondary mt-6 mb-2">Published</p>
+              <p className="text-body text-fg-text-dark">
+                {new Date(article.date).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="lg:col-start-9 lg:col-span-14">
+            <div className="border-t border-fg-border-light pt-8">
+              <p className="text-body text-fg-text-dark leading-relaxed text-lg lg:text-xl mb-8">
+                {article.excerpt}
+              </p>
+
+              {/* Placeholder paragraphs — in production, this would come from CMS */}
+              <div className="space-y-6">
+                <p className="text-body text-fg-text-dark-secondary leading-relaxed">
+                  This article provides comprehensive insights into modern renovation practices in Dubai.
+                  Whether you&apos;re planning a villa transformation or a targeted kitchen upgrade, understanding
+                  the fundamentals of design-build delivery ensures better outcomes, fewer surprises, and
+                  greater satisfaction with the finished result.
+                </p>
+                <p className="text-body text-fg-text-dark-secondary leading-relaxed">
+                  The Dubai renovation market demands specific expertise — from municipality compliance and
+                  building management coordination to climate-appropriate material selection and international
+                  quality benchmarks. A disciplined process, transparent communication, and experienced project
+                  management are non-negotiable.
+                </p>
+                <p className="text-body text-fg-text-dark-secondary leading-relaxed">
+                  At Smart Renovation, every project follows the same four-phase structure: Discovery, Design,
+                  Build, and Deliver. This consistency ensures that regardless of project scale or complexity,
+                  clients receive the same level of attention, accountability, and craftsmanship.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
 
-      {/* Related */}
-      {otherArticles.length > 0 && (
-        <section className="bg-sr-dark-surface py-20">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <h2 className="font-heading text-2xl font-light text-sr-cream mb-10">More Insights</h2>
-            <div className="grid gap-6 sm:grid-cols-3">
-              {otherArticles.map((a) => (
-                <Link key={a.slug} href={`/blog/${a.slug}`} className="group block overflow-hidden rounded-xl border border-sr-dark-border transition-all hover:border-sr-gold/30">
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image src={a.coverImage} alt={a.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="33vw" />
+        {/* Related */}
+        {related.length > 0 && (
+          <div className="px-6 lg:px-10 mt-20 lg:mt-32">
+            <div className="border-t border-fg-border-light pt-6 mb-10">
+              <p className="section-title text-label-lg text-fg-text-dark-secondary">Related Articles</p>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {related.map((a) => (
+                <Link key={a.slug} href={`/blog/${a.slug}`} className="group">
+                  <div className="aspect-[16/10] relative overflow-hidden mb-4">
+                    <Image
+                      src={a.coverImage}
+                      alt={a.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="50vw"
+                    />
                   </div>
-                  <div className="p-4">
-                    <p className="text-xs text-sr-gold">{a.category}</p>
-                    <h3 className="mt-1 font-heading text-base text-sr-cream line-clamp-2">{a.title}</h3>
-                  </div>
+                  <p className="text-label text-fg-text-dark-secondary mb-2">{a.category} · {a.readTime}</p>
+                  <h3 className="text-subheading text-fg-text-dark group-hover:opacity-70 transition-opacity">
+                    {a.title}
+                  </h3>
                 </Link>
               ))}
             </div>
           </div>
-        </section>
-      )}
+        )}
+      </section>
     </>
   );
 }

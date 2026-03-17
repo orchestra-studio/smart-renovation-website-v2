@@ -1,103 +1,80 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { services } from "@/data/services";
-import { processSteps } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Services — Design-Build Excellence",
-  description: "Comprehensive renovation services in Dubai: villa renovation, apartment fit-out, kitchen and bathroom redesign, landscape, and commercial office fit-out.",
+  title: "Services — Design-Build Expertise",
+  description: "Comprehensive renovation services across Dubai — villas, apartments, kitchens, bathrooms, landscaping, and commercial fit-outs.",
 };
 
 export default function ServicesPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-sr-dark pt-40 pb-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <p className="text-overline text-sr-gold mb-4">Our Services</p>
-          <h1 className="text-display text-sr-cream max-w-3xl">
-            Crafted for
-            <br />
-            <span className="text-gradient-gold">Every Space</span>
+      <section className="bg-fg-grey text-fg-white pt-28 lg:pt-36 pb-16 lg:pb-24">
+        <div className="px-6 lg:px-10">
+          <p className="section-title text-label-lg text-fg-text-secondary mb-6">Our Services</p>
+          <h1 className="text-hero max-w-[56rem]">
+            Integrated design-build expertise for every kind of space
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-sr-text-secondary">
-            From intimate kitchen redesigns to comprehensive villa transformations,
-            our design-build approach delivers certainty at every scale.
-          </p>
+          <div className="divider mt-12 lg:mt-16" />
+
+          {/* Intro */}
+          <div className="lg:grid lg:grid-cols-24 lg:gap-5 mt-6">
+            <div className="lg:col-start-16 lg:col-span-9">
+              <p className="text-body text-fg-text-secondary">
+                Each service is backed by the same disciplined process: discovery, design, build, deliver. One team, full accountability.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="bg-sr-dark pb-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => (
-              <Link
-                key={service.slug}
-                href={`/services/${service.slug}`}
-                className="group relative block overflow-hidden rounded-2xl border border-sr-dark-border bg-sr-dark-surface transition-all duration-500 hover:border-sr-gold/30"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden">
+      {/* Service list */}
+      <section className="bg-fg-cream text-fg-text-dark py-10 lg:py-16">
+        <div className="px-6 lg:px-10">
+          {services.map((service, i) => (
+            <Link
+              key={service.slug}
+              href={`/services/${service.slug}`}
+              className="group block border-b border-[rgba(33,35,37,0.1)] py-8 lg:py-12 lg:grid lg:grid-cols-24 lg:gap-5 items-start hover:border-[rgba(33,35,37,0.6)] transition-colors"
+            >
+              {/* Number */}
+              <div className="lg:col-span-2">
+                <p className="text-label text-[rgba(33,35,37,0.4)]">{String(i + 1).padStart(2, "0")}</p>
+              </div>
+
+              {/* Title + teaser */}
+              <div className="lg:col-span-10 mt-2 lg:mt-0">
+                <h2 className="text-subheading text-fg-text-dark group-hover:opacity-70 transition-opacity">
+                  {service.name}
+                </h2>
+                <p className="text-body text-fg-text-dark-secondary mt-2">{service.teaser}</p>
+              </div>
+
+              {/* Image preview */}
+              <div className="lg:col-start-15 lg:col-span-8 mt-4 lg:mt-0">
+                <div className="aspect-[16/10] relative overflow-hidden">
                   <Image
                     src={service.heroImage}
                     alt={service.name}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, 35vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-sr-dark via-sr-dark/40 to-transparent" />
                 </div>
-                <div className="relative -mt-14 px-6 pb-8 z-10">
-                  <span className="text-3xl">{service.icon}</span>
-                  <h2 className="mt-3 font-heading text-2xl font-light text-sr-cream">{service.name}</h2>
-                  <p className="mt-2 text-sm text-sr-text-muted leading-relaxed">{service.teaser}</p>
-                  <span className="mt-4 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-sr-gold transition-all duration-300 group-hover:gap-3">
-                    Learn More <span>→</span>
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process */}
-      <section className="bg-sr-dark-surface py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-overline text-sr-gold mb-4">Our Process</p>
-            <h2 className="text-section-title text-sr-cream">
-              How We Deliver Excellence
-            </h2>
-          </div>
-          <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {processSteps.map((step) => (
-              <div key={step.step} className="rounded-2xl border border-sr-dark-border bg-sr-dark p-8">
-                <span className="font-heading text-5xl font-light text-sr-gold/20">{step.step}</span>
-                <h3 className="mt-4 font-heading text-xl font-light text-sr-cream">{step.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-sr-text-muted">{step.description}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* CTA */}
-      <section className="bg-sr-dark py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center lg:px-8">
-          <h2 className="font-heading text-3xl font-light text-sr-cream">
-            Ready to discuss your project?
-          </h2>
-          <p className="mt-4 text-sr-text-secondary">
-            Book a free consultation and let&apos;s explore what&apos;s possible.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-8 inline-block rounded-full bg-sr-gold px-10 py-4 text-sm font-semibold uppercase tracking-widest text-sr-dark transition-all hover:bg-sr-gold-hover"
-          >
-            Schedule a Consultation
-          </Link>
+              {/* Arrow */}
+              <div className="lg:col-start-24 lg:col-span-1 flex items-center justify-end mt-4 lg:mt-0">
+                <svg width="15" height="11" viewBox="0 0 14 11" fill="none" className="opacity-30 group-hover:opacity-100 transition-opacity">
+                  <path d="M8.5 0.5L13 5.5L8.5 10.5" stroke="currentColor" strokeWidth="1.2" />
+                  <path d="M0 5.5H13" stroke="currentColor" strokeWidth="1.2" />
+                </svg>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
     </>

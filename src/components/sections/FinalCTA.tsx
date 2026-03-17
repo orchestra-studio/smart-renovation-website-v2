@@ -1,57 +1,63 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { siteConfig } from "@/data/site";
 
 export function FinalCTA() {
-  const { ref, isVisible } = useScrollReveal();
+  const { ref, isVisible } = useScrollReveal(0.1);
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-sr-dark py-32 lg:py-40">
-      {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-sr-dark via-sr-dark-surface to-sr-dark" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-sr-gold/5 blur-[120px]" />
-
-      <div className="relative mx-auto max-w-3xl px-6 text-center lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <p className="text-overline text-sr-gold mb-6">Join 240+ Dubai Homeowners</p>
-          <h2 className="text-display text-sr-cream">
-            Your Space Deserves
-            <br />
-            <span className="text-gradient-gold">Extraordinary</span>
-          </h2>
-          <p className="mx-auto mt-6 max-w-xl text-lg text-sr-text-secondary">
-            Begin with a conversation. No commitments, no pressure — just a focused
-            consultation to understand your vision.
+    <section ref={ref} className="bg-fg-cream text-fg-text-dark py-6 lg:py-10">
+      <div className="mx-6 lg:mx-10 border border-fg-border-light relative overflow-hidden">
+        <div className="px-6 lg:px-10 py-20 lg:py-36">
+          {/* Label */}
+          <p className="section-title text-label-lg text-fg-text-dark-secondary mb-6">
+            Start Your Project
           </p>
 
-          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          {/* Heading */}
+          <h2
+            className={`text-heading text-fg-text-dark max-w-[44rem] mb-8 lg:mb-10 transition-all duration-700 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+          >
+            Let&apos;s discuss your renovation — from first idea to final handover
+          </h2>
+
+          {/* Buttons */}
+          <div className="flex flex-wrap gap-4">
             <Link
               href="/contact"
-              className="rounded-full bg-sr-gold px-10 py-4 text-sm font-semibold uppercase tracking-widest text-sr-dark transition-all duration-500 hover:bg-sr-gold-hover hover:shadow-[0_0_50px_rgba(197,165,114,0.4)]"
+              className="text-label inline-flex items-center gap-3 bg-fg-grey text-fg-white px-6 py-3 transition-opacity hover:opacity-80"
             >
-              Start Your Project
+              <svg width="14" height="11" viewBox="0 0 14 11" fill="none" className="-translate-y-px">
+                <path d="M8.5 0.5L13 5.5L8.5 10.5" stroke="currentColor" strokeWidth="1.2" />
+                <path d="M0 5.5H13" stroke="currentColor" strokeWidth="1.2" />
+              </svg>
+              Request a Consultation
             </Link>
-            <a
-              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("Hello, I'd like to discuss a renovation project.")}`}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full border border-sr-dark-border px-10 py-4 text-sm font-medium uppercase tracking-wider text-sr-cream transition-all duration-300 hover:border-sr-gold hover:text-sr-gold"
+            <Link
+              href="/projects"
+              className="text-label text-fg-text-dark py-3 hover-underline pb-0.5"
             >
-              Chat on WhatsApp
-            </a>
+              View Our Work
+            </Link>
           </div>
+        </div>
 
-          <p className="mt-8 text-xs text-sr-text-muted">
-            Response within 15 minutes during business hours
-          </p>
-        </motion.div>
+        {/* Decorative geometric — fluid.glass style */}
+        <svg
+          viewBox="0 0 428 610"
+          fill="none"
+          className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[26.75rem] h-[38rem] text-fg-border-light"
+        >
+          <path d="M0 0L428 0L428 610L0 610L0 0Z" stroke="currentColor" strokeWidth="0.5" fill="none" />
+          <path d="M0 305L428 0" stroke="currentColor" strokeWidth="0.5" />
+          <path d="M0 305L428 610" stroke="currentColor" strokeWidth="0.5" />
+          <path d="M214 0L214 610" stroke="currentColor" strokeWidth="0.5" />
+          <path d="M0 0L428 610" stroke="currentColor" strokeWidth="0.3" />
+          <path d="M428 0L0 610" stroke="currentColor" strokeWidth="0.3" />
+        </svg>
       </div>
     </section>
   );

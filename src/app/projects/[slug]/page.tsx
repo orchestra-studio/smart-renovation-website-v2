@@ -3,24 +3,23 @@ import { notFound } from "next/navigation";
 import { projects, getProjectBySlug } from "@/data/projects";
 import { ProjectDetail } from "./ProjectDetail";
 
+type Params = Promise<{ slug: string }>;
+
 export async function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) return {};
   return {
-    title: `${project.title} — ${project.location}`,
+    title: `${project.title} — Project`,
     description: project.summary,
-    openGraph: {
-      images: [{ url: project.gallery[0], width: 1200, height: 630 }],
-    },
   };
 }
 
-export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ProjectPage({ params }: { params: Params }) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) notFound();

@@ -3,74 +3,84 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { projects } from "@/data/projects";
 
-const filters = ["All", "Residential", "Commercial"];
+const types = ["All", "Residential", "Commercial"] as const;
 
 export function ProjectsGrid() {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [filter, setFilter] = useState<string>("All");
 
-  const filtered = activeFilter === "All"
+  const filtered = filter === "All"
     ? projects
-    : projects.filter((p) => p.type === activeFilter);
+    : projects.filter((p) => p.type === filter);
 
   return (
-    <section className="bg-sr-dark pb-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {/* Filters */}
-        <div className="flex gap-3 mb-12">
-          {filters.map((f) => (
+    <section className="bg-fg-cream text-fg-text-dark py-10 lg:py-16">
+      <div className="px-6 lg:px-10">
+        {/* Filter bar */}
+        <div className="flex gap-3 mb-10 lg:mb-16">
+          {types.map((t) => (
             <button
-              key={f}
-              onClick={() => setActiveFilter(f)}
-              className={`rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-300 ${
-                activeFilter === f
-                  ? "bg-sr-gold text-sr-dark"
-                  : "border border-sr-dark-border text-sr-text-secondary hover:border-sr-text-muted"
+              key={t}
+              onClick={() => setFilter(t)}
+              className={`text-label border px-5 py-2.5 transition-colors ${
+                filter === t
+                  ? "bg-fg-grey text-fg-white border-fg-grey"
+                  : "border-fg-border-light text-fg-text-dark-secondary hover:bg-fg-grey hover:text-fg-white hover:border-fg-grey"
               }`}
             >
-              {f}
+              {t}
             </button>
           ))}
         </div>
 
         {/* Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((project, i) => (
-            <motion.div
-              key={project.slug}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-            >
+        <div className="grid grid-cols-1 lg:grid-cols-24 lg:gap-5">
+          {filtered.map((project, i) => {
+            // Staggered column placement like fluid.glass
+            const layouts = [
+              "lg:col-start-1 lg:col-span-12",
+              "lg:col-start-14 lg:col-span-10 lg:mt-24",
+              "lg:col-start-3 lg:col-span-10",
+              "lg:col-start-15 lg:col-span-9 lg:-mt-16",
+              "lg:col-start-1 lg:col-span-11",
+              "lg:col-start-13 lg:col-span-11 lg:mt-20",
+              "lg:col-start-2 lg:col-span-10",
+              "lg:col-start-14 lg:col-span-10 lg:-mt-12",
+            ];
+
+            return (
               <Link
+                key={project.slug}
                 href={`/projects/${project.slug}`}
-                className="group block overflow-hidden rounded-2xl border border-sr-dark-border transition-all duration-500 hover:border-sr-gold/30"
+                className={`group block mb-8 lg:mb-12 ${layouts[i % layouts.length]}`}
               >
-                <div className="relative aspect-[4/3] overflow-hidden">
+                <div className="aspect-[4/3] relative overflow-hidden mb-4">
                   <Image
                     src={project.gallery[0]}
                     alt={project.title}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-sr-dark/80 to-transparent opacity-60 transition-opacity group-hover:opacity-80" />
                 </div>
-                <div className="relative -mt-20 p-6 z-10">
-                  <div className="flex items-center gap-2 text-xs text-sr-text-muted">
-                    <span className="rounded-full border border-sr-cream/20 px-2.5 py-0.5 text-sr-cream/80">{project.type}</span>
-                    <span>{project.location}</span>
-                    <span>·</span>
-                    <span>{project.timeline}</span>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="text-subheading text-fg-text-dark group-hover:opacity-70 transition-opacity">
+                      {project.title}
+                    </h3>
+                    <p className="text-label text-fg-text-dark-secondary mt-2">
+                      {project.location} — {project.type}
+                    </p>
                   </div>
-                  <h3 className="mt-3 font-heading text-xl font-light text-sr-cream">{project.shortLabel}</h3>
-                  <p className="mt-1 text-xs text-sr-text-muted line-clamp-1">{project.style}</p>
+                  <svg width="15" height="11" viewBox="0 0 14 11" fill="none" className="opacity-30 group-hover:opacity-100 transition-opacity mt-2 flex-shrink-0">
+                    <path d="M8.5 0.5L13 5.5L8.5 10.5" stroke="currentColor" strokeWidth="1.2" />
+                    <path d="M0 5.5H13" stroke="currentColor" strokeWidth="1.2" />
+                  </svg>
                 </div>
               </Link>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

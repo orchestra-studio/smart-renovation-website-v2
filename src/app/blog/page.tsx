@@ -4,95 +4,78 @@ import Link from "next/link";
 import { articles } from "@/data/articles";
 
 export const metadata: Metadata = {
-  title: "Blog — Renovation Insights",
-  description: "Expert insights on luxury renovation in Dubai. Design trends, renovation guides, and practical advice from Smart Renovation's team.",
+  title: "Journal — Renovation Insights",
+  description: "Expert guides, design trends, and renovation insights from the Smart Renovation team.",
 };
 
 export default function BlogPage() {
-  const featured = articles.filter((a) => a.featured);
-  const rest = articles.filter((a) => !a.featured);
-
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-sr-dark pt-40 pb-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <p className="text-overline text-sr-gold mb-4">Insights</p>
-          <h1 className="text-display text-sr-cream max-w-3xl">
-            Renovation
-            <br />
-            <span className="text-gradient-gold">Intelligence</span>
+      <section className="bg-fg-grey text-fg-white pt-28 lg:pt-36 pb-16 lg:pb-24">
+        <div className="px-6 lg:px-10">
+          <p className="section-title text-label-lg text-fg-text-secondary mb-6">Journal</p>
+          <h1 className="text-hero max-w-[50rem]">
+            Insights on design, renovation, and premium living in Dubai
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-sr-text-secondary">
-            Expert perspectives on design, renovation strategy, and luxury living in Dubai.
-          </p>
+          <div className="divider mt-12 lg:mt-16" />
         </div>
       </section>
 
-      {/* Featured */}
-      {featured.length > 0 && (
-        <section className="bg-sr-dark pb-16">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="grid gap-8 lg:grid-cols-2">
-              {featured.map((article) => (
-                <Link
-                  key={article.slug}
-                  href={`/blog/${article.slug}`}
-                  className="group block overflow-hidden rounded-2xl border border-sr-dark-border transition-all duration-500 hover:border-sr-gold/30"
-                >
-                  <div className="relative aspect-[16/9] overflow-hidden">
-                    <Image
-                      src={article.coverImage}
-                      alt={article.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-sr-dark/80 to-transparent" />
-                  </div>
-                  <div className="relative -mt-20 p-6 z-10">
-                    <div className="flex items-center gap-3 text-xs text-sr-text-muted">
-                      <span className="rounded-full border border-sr-cream/20 px-2.5 py-0.5 text-sr-gold">{article.category}</span>
-                      <span>{article.readTime}</span>
-                    </div>
-                    <h2 className="mt-3 font-heading text-2xl font-light text-sr-cream">{article.title}</h2>
-                    <p className="mt-2 text-sm text-sr-text-muted line-clamp-2">{article.excerpt}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Articles */}
+      <section className="bg-fg-cream text-fg-text-dark py-10 lg:py-16">
+        <div className="px-6 lg:px-10">
+          {/* Featured */}
+          {articles.filter(a => a.featured).slice(0, 1).map((article) => (
+            <Link
+              key={article.slug}
+              href={`/blog/${article.slug}`}
+              className="group block lg:grid lg:grid-cols-24 lg:gap-5 mb-12 lg:mb-20 pb-12 lg:pb-20 border-b border-fg-border-light"
+            >
+              <div className="lg:col-span-14 aspect-[16/10] relative overflow-hidden mb-6 lg:mb-0">
+                <Image
+                  src={article.coverImage}
+                  alt={article.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="60vw"
+                />
+              </div>
+              <div className="lg:col-start-16 lg:col-span-9 flex flex-col justify-center">
+                <p className="text-label text-fg-text-dark-secondary mb-3">
+                  {article.category} · {article.readTime}
+                </p>
+                <h2 className="text-heading text-fg-text-dark group-hover:opacity-70 transition-opacity mb-4">
+                  {article.title}
+                </h2>
+                <p className="text-body text-fg-text-dark-secondary">{article.excerpt}</p>
+              </div>
+            </Link>
+          ))}
 
-      {/* All Articles */}
-      <section className="bg-sr-dark pb-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="luxury-divider mb-12" />
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {rest.map((article) => (
+          {/* All articles */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
+            {articles.filter(a => !a.featured).concat(articles.filter(a => a.featured).slice(1)).map((article) => (
               <Link
                 key={article.slug}
                 href={`/blog/${article.slug}`}
-                className="group block overflow-hidden rounded-xl border border-sr-dark-border transition-all duration-500 hover:border-sr-gold/30"
+                className="group"
               >
-                <div className="relative aspect-[16/10] overflow-hidden">
+                <div className="aspect-[16/10] relative overflow-hidden mb-4">
                   <Image
                     src={article.coverImage}
                     alt={article.title}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="33vw"
                   />
                 </div>
-                <div className="p-5">
-                  <div className="flex items-center gap-3 text-xs text-sr-text-muted">
-                    <span className="text-sr-gold">{article.category}</span>
-                    <span>{article.readTime}</span>
-                  </div>
-                  <h3 className="mt-2 font-heading text-lg text-sr-cream">{article.title}</h3>
-                  <p className="mt-1 text-xs text-sr-text-muted line-clamp-2">{article.excerpt}</p>
-                </div>
+                <p className="text-label text-fg-text-dark-secondary mb-2">
+                  {article.category} · {article.readTime}
+                </p>
+                <h3 className="text-subheading text-fg-text-dark group-hover:opacity-70 transition-opacity">
+                  {article.title}
+                </h3>
               </Link>
             ))}
           </div>

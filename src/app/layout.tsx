@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 import { siteConfig } from "@/data/site";
-import { Header } from "@/components/layout/Header";
+import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { CookieConsent } from "@/components/layout/CookieConsent";
@@ -14,15 +14,15 @@ import { SmoothScroll } from "@/components/layout/SmoothScroll";
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-body",
+  variable: "--font-display",
   display: "swap",
   preload: true,
 });
 
-const cormorant = Cormorant_Garamond({
+const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-heading",
+  weight: ["400", "500", "600"],
+  variable: "--font-mono",
   display: "swap",
   preload: true,
 });
@@ -117,9 +117,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBizSchema) }}
         />
       </head>
-      <body className={`${inter.variable} ${cormorant.variable} antialiased`}>
+      <body className={`${inter.variable} ${jetbrains.variable} antialiased`}>
         <SmoothScroll>
-          <Header />
+          <Navigation />
           <main>{children}</main>
           <Footer />
           <WhatsAppButton />

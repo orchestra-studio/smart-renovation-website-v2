@@ -1,138 +1,165 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════
-   SMART RENOVATION — LUXURY DESIGN SYSTEM
-   "The Fashion House of Renovation"
+   SMART RENOVATION — FLUID GLASS DESIGN SYSTEM
+   Inspired by fluid.glass — Architectural Elegance
    ═══════════════════════════════════════════ */
 
 @theme {
-  /* ── Primary Dark Palette ── */
-  --color-sr-black: #0A0A0A;
-  --color-sr-dark: #101014;
-  --color-sr-dark-surface: #161618;
-  --color-sr-dark-elevated: #1C1C1F;
-  --color-sr-dark-border: #2A2A2E;
+  /* ── Core Palette (fluid.glass-derived) ── */
+  --color-fg-black: #0b1012;
+  --color-fg-dark: #131619;
+  --color-fg-surface: #1a1d21;
+  --color-fg-grey: #212325;
+  --color-fg-white: #ffffff;
+  --color-fg-cream: #f3f0ec;
+  --color-fg-taupe: #d4cec6;
 
-  /* ── Warm Neutrals ── */
-  --color-sr-cream: #FAF9F6;
-  --color-sr-warm-white: #F5F0EB;
-  --color-sr-stone: #E8E2DA;
-
-  /* ── Accent ── */
-  --color-sr-gold: #C5A572;
-  --color-sr-gold-hover: #D4B88A;
-  --color-sr-gold-muted: #B8976A;
-  --color-sr-ocean: #1a6b8a;
+  /* ── Border & Subtle ── */
+  --color-fg-border: rgba(255, 255, 255, 0.12);
+  --color-fg-border-light: rgba(33, 35, 37, 0.2);
 
   /* ── Text ── */
-  --color-sr-text-primary: #FAFAF7;
-  --color-sr-text-secondary: #9A9A9F;
-  --color-sr-text-muted: #6B6B72;
+  --color-fg-text-primary: #ffffff;
+  --color-fg-text-secondary: rgba(255, 255, 255, 0.6);
+  --color-fg-text-muted: rgba(255, 255, 255, 0.35);
+  --color-fg-text-dark: #212325;
+  --color-fg-text-dark-secondary: rgba(33, 35, 37, 0.6);
 
-  /* ── Functional ── */
-  --color-sr-success: #25D366;
+  /* ── Accent ── */
+  --color-fg-accent: #C5A572;
+  --color-fg-accent-hover: #D4B88A;
 
-  /* ── Typography ── */
-  --font-heading: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  /* ── Success ── */
+  --color-fg-success: #25D366;
+
+  /* ── Fonts ── */
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+
+  /* ── Easings (fluid.glass-derived) ── */
+  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ── Base ── */
 html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-  background-color: var(--color-sr-dark);
-  color: var(--color-sr-text-primary);
-  font-family: var(--font-body);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-fg-grey);
+  color: var(--color-fg-white);
+  font-family: var(--font-display);
+  text-rendering: optimizeSpeed;
+  -webkit-text-size-adjust: 100%;
+  margin: 0;
 }
 
 ::selection {
-  background-color: var(--color-sr-gold);
-  color: var(--color-sr-dark);
+  background-color: var(--color-fg-accent);
+  color: var(--color-fg-black);
 }
 
-/* ── Custom Scrollbar ── */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-sr-dark);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-sr-dark-border);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-sr-text-muted);
-}
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 0; height: 0; display: none; }
+html { scrollbar-width: none; }
 
-/* ── Luxury Typography ── */
-.font-heading {
-  font-family: var(--font-heading);
-  letter-spacing: -0.03em;
-  line-height: 0.95;
-}
-
+/* ── Typography Classes ── */
 .text-hero {
-  font-family: var(--font-heading);
-  font-size: clamp(3rem, 7vw, 6.5rem);
-  line-height: 0.92;
-  letter-spacing: -0.04em;
-  font-weight: 300;
-}
-
-.text-display {
-  font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  line-height: 1.0;
-  letter-spacing: -0.03em;
-  font-weight: 300;
-}
-
-.text-section-title {
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 6.4rem);
   font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
-.text-overline {
+.text-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.text-subheading {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2.4rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.text-body {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.text-label {
+  font-family: var(--font-mono);
   font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
   font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.text-label-lg {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.3;
 }
 
 /* ── Glass Effects ── */
-.glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+.glass-nav {
+  backdrop-filter: blur(2rem);
+  -webkit-backdrop-filter: blur(2rem);
+  background: color-mix(in srgb, var(--color-fg-black) 80%, transparent);
 }
 
-.glass-dark {
-  background: rgba(10, 10, 10, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+.glass-card {
+  backdrop-filter: blur(2rem);
+  -webkit-backdrop-filter: blur(2rem);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* ── Animation Utilities ── */
+.glass-button {
+  backdrop-filter: blur(2rem);
+  -webkit-backdrop-filter: blur(2rem);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+}
+
+/* ── Section Title Diamond ── */
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: currentColor;
+  transform: rotate(45deg);
+  margin-right: 0.75rem;
+  vertical-align: middle;
+}
+
+/* ── Animations ── */
 @keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(2rem); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fade-in {
@@ -140,55 +167,70 @@ body {
   to { opacity: 1; }
 }
 
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+@keyframes line-reveal {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
 }
 
-@keyframes ticker {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-@keyframes ticker-reverse {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .animate-fade-up {
-  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fade-up 0.8s var(--ease-out-quart) forwards;
 }
 
 .animate-fade-in {
   animation: fade-in 0.6s ease-out forwards;
 }
 
-.animate-ticker {
-  animation: ticker 40s linear infinite;
+/* ── Hover underline (fluid.glass style) ── */
+.hover-underline {
+  position: relative;
 }
 
-.animate-ticker-reverse {
-  animation: ticker-reverse 40s linear infinite;
-}
-
-/* ── Gold Gradient Text ── */
-.text-gradient-gold {
-  background: linear-gradient(135deg, #C5A572 0%, #E8D5B5 50%, #C5A572 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ── Separator ── */
-.luxury-divider {
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-sr-dark-border), transparent);
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.5s cubic-bezier(1, 0, 0, 1);
+  will-change: transform;
+}
+
+.hover-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* ── Border Divider ── */
+.divider {
+  height: 1px;
+  background: var(--color-fg-border);
+}
+
+.divider-dark {
+  height: 1px;
+  background: var(--color-fg-border-light);
+}
+
+/* ── Image Cover ── */
+.img-cover {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
 /* ── Reduced Motion ── */
