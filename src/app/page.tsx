@@ -1,27 +1,31 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Services from "@/components/Services";
-import Work from "@/components/Work";
-import Testimonials from "@/components/Testimonials";
-import FAQ from "@/components/FAQ";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+import { Hero } from "@/components/sections/Hero";
+import { About } from "@/components/sections/About";
+import { Portfolio } from "@/components/sections/Portfolio";
+import { Services } from "@/components/sections/Services";
+import { Process } from "@/components/sections/Process";
+import { BeforeAfter } from "@/components/sections/BeforeAfter";
+import { Testimonials } from "@/components/sections/Testimonials";
+import { LeadForm } from "@/components/sections/LeadForm";
+import { FAQ } from "@/components/sections/FAQ";
+import { FinalCTA } from "@/components/sections/FinalCTA";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <>
-      <Header />
-      <main>
-        <Hero />
-        <About />
-        <Services />
-        <Work />
-        <Testimonials />
-        <FAQ />
-        <Contact />
-      </main>
-      <Footer />
+      <Hero />
+      <About />
+      <Portfolio />
+      <Services />
+      <Process />
+      <BeforeAfter
+        beforeImage="/images/projects/sr5.webp"
+        afterImage="/images/projects/penthouse-1.jpg"
+        label="Palm Jumeirah Villa — 8 Month Transformation"
+      />
+      <Testimonials />
+      <LeadForm />
+      <FAQ />
+      <FinalCTA />
     </>
   );
 }

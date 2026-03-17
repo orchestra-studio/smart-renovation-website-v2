@@ -1,58 +1,154 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-dark: #101014;
-  --color-dark-75: rgba(16, 16, 20, 0.75);
-  --color-light: #FAFAFA;
-  --color-light-alt: #E9ECF2;
-  --color-mid: #28282C;
-  --color-white: #FFFFFF;
-  --color-black: #000000;
-  --color-border-light: #E6E6E6;
-  --color-border-dark: #222222;
-  --color-text-muted: #3D3D47;
-  --color-text-light: #D0D1DB;
-  --color-text-light-alt: #DBDAD9;
-  --color-accent: #FF083D;
-  --color-star: #F59E0B;
+/* ═══════════════════════════════════════════
+   SMART RENOVATION — LUXURY DESIGN SYSTEM
+   "The Fashion House of Renovation"
+   ═══════════════════════════════════════════ */
+
+@theme {
+  /* ── Primary Dark Palette ── */
+  --color-sr-black: #0A0A0A;
+  --color-sr-dark: #101014;
+  --color-sr-dark-surface: #161618;
+  --color-sr-dark-elevated: #1C1C1F;
+  --color-sr-dark-border: #2A2A2E;
+
+  /* ── Warm Neutrals ── */
+  --color-sr-cream: #FAF9F6;
+  --color-sr-warm-white: #F5F0EB;
+  --color-sr-stone: #E8E2DA;
+
+  /* ── Accent ── */
+  --color-sr-gold: #C5A572;
+  --color-sr-gold-hover: #D4B88A;
+  --color-sr-gold-muted: #B8976A;
+  --color-sr-ocean: #1a6b8a;
+
+  /* ── Text ── */
+  --color-sr-text-primary: #FAFAF7;
+  --color-sr-text-secondary: #9A9A9F;
+  --color-sr-text-muted: #6B6B72;
+
+  /* ── Functional ── */
+  --color-sr-success: #25D366;
+
+  /* ── Typography ── */
+  --font-heading: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* ── Base ── */
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-sr-dark);
+  color: var(--color-sr-text-primary);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  background: #FAFAFA;
-  color: #101014;
-  font-family: var(--font-manrope), sans-serif;
-  overflow-x: hidden;
-}
-
 ::selection {
-  background: #101014;
-  color: #FAFAFA;
+  background-color: var(--color-sr-gold);
+  color: var(--color-sr-dark);
 }
 
+/* ── Custom Scrollbar ── */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FAFAFA;
+  background: var(--color-sr-dark);
 }
 ::-webkit-scrollbar-thumb {
-  background: #D0D1DB;
+  background: var(--color-sr-dark-border);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #28282C;
+  background: var(--color-sr-text-muted);
+}
+
+/* ── Luxury Typography ── */
+.font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.text-hero {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  font-weight: 300;
+}
+
+.text-display {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  font-weight: 300;
+}
+
+.text-section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+.text-overline {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* ── Glass Effects ── */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-dark {
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ── Animation Utilities ── */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes ticker {
@@ -65,10 +161,41 @@ body {
   100% { transform: translateX(0); }
 }
 
+.animate-fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
 .animate-ticker {
   animation: ticker 40s linear infinite;
 }
 
 .animate-ticker-reverse {
   animation: ticker-reverse 40s linear infinite;
+}
+
+/* ── Gold Gradient Text ── */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #C5A572 0%, #E8D5B5 50%, #C5A572 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Separator ── */
+.luxury-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-sr-dark-border), transparent);
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
