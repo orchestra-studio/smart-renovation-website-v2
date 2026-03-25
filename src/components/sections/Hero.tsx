@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { siteConfig, trustStats } from "@/data/site";
+import { siteConfig } from "@/data/site";
 
 export function Hero() {
   const [loaded, setLoaded] = useState(false);

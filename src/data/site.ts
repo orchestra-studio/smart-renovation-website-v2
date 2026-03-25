@@ -36,7 +36,14 @@ export const trustStats = [
   { value: 14, suffix: "+", label: "Years in Dubai" },
   { value: 240, suffix: "+", label: "Projects Delivered" },
   { value: 96, suffix: "%", label: "On-Time Handover" },
-  { value: 4.9, suffix: "/5", label: "Client Rating", decimals: 1 },
+  { value: 4.9, suffix: "/5", label: "Google Rating ★★★★★", decimals: 1 },
+];
+
+export const awards = [
+  "ALA 2025 — Boutique Firm of the Year",
+  "DME 2024 — Design & Build Project",
+  "ALA 2024 — Innovation in Architecture",
+  "DME 2023 — Landscape Project",
 ];
 
 export const processSteps = [
